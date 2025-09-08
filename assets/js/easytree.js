@@ -346,9 +346,7 @@ if (typeof jsonurl === 'undefined') {
                 "keep_selected_style" : false,
                 "three_state": false,
             },
-            "plugins": [
-                "types", "wholerow", "checkbox"
-            ]
+            "plugins": jstreeplugins
         })
     });
     
