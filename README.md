@@ -32,6 +32,9 @@ to the require section of your `composer.json` file.
 
 Latest News
 -----
+Version 1.0.17
+- PHP 8.2 Compatibility
+
 Version 1.0.16 
 - Removed unnecessary Bootstrap Dependency
 

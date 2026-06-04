@@ -317,7 +317,7 @@ class JsTree extends Widget
         if (isset($_REQUEST["easytree"])) {
             $operation = $_REQUEST["easytree"];
             if ($operation == "fulljson")
-               self::sendJSON(self::treeChildren($this->modelName, $this->modelFirstParentId));
+               self::sendJSON($this->treeChildren($this->modelName, $this->modelFirstParentId));
             if ($operation == "move") {
                 $modelName = $this->modelName;
                 $model = $modelName::findOne($_POST["id"]);
@@ -391,7 +391,7 @@ class JsTree extends Widget
             }
             if ($operation == "delete") {
                 // check for children
-                $check = self::treeChildren($this->modelName, $_POST["id"]);
+                $check = $this->treeChildren($this->modelName, $_POST["id"]);
                 if (empty($check)) {
                     $modelName = $this->modelName;
                     $model = $modelName::findOne($_POST["id"]);
@@ -440,7 +440,7 @@ class JsTree extends Widget
             $type = $item->{$this->modelPropertyType}??"default";
 
             $data[] = ['id' => "id" . $item->{$this->modelPropertyId}, 'parent' => $parent, 'type' => $type, 'text' => $name];
-            $mixin = self::treeChildren($modelName, $item->{$this->modelPropertyId});
+            $mixin = $this->treeChildren($modelName, $item->{$this->modelPropertyId});
             if (!empty($mixin))
                 $data = array_merge($data, $mixin);
         }
