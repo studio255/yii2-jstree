@@ -25,7 +25,7 @@ php composer.phar require --prefer-dist studio255/yii2-jstree "1.0.14"
 or add
 
 ```
-"studio255/yii2-jstree": "1.0.14",
+"studio255/yii2-jstree": "1.0.17",
 ```
 
 to the require section of your `composer.json` file.

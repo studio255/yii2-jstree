@@ -12,7 +12,7 @@
     ],
     "require": {
         "php": ">=8.2",
-        "yiisoft/yii2": "^2.0.51",
+        "yiisoft/yii2": "^2.0.55",
         "vakata/jstree" : "3.3"
     },
     "config": {
