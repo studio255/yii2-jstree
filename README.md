@@ -6,7 +6,7 @@
 
 A Yii2 widget for the [jsTree](https://www.jstree.com/) jQuery library — display and manage Yii2 ActiveRecord models as interactive trees.
 
-<!-- Add a screenshot here: ![Demo](docs/screenshot.png) -->
+![screenshot.png](docs/screenshot.png)
 
 ## Features
 
