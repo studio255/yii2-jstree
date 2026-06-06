@@ -19,13 +19,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist kasoft/yii2-jstree "1.0.14"
+php composer.phar require --prefer-dist studio255/yii2-jstree "1.0.14"
 ```
 
 or add
 
 ```
-"kasoft/yii2-jstree": "1.0.14",
+"studio255/yii2-jstree": "1.0.14",
 ```
 
 to the require section of your `composer.json` file.
@@ -96,7 +96,7 @@ The simple Version just displays the tree with a provided json url. You have
 to provide the json data by an url  
 
 ```php
-$tree = new \kasoft\jstree\JsTree([
+$tree = new \studio255\jstree\JsTree([
     'jsonUrl' => '/my_jsonurl/data/whatever',
 ]);
 ```
@@ -135,7 +135,7 @@ Add this to your Controller. All Items with (*) are required!
 ```php
 <?
 public function actionIndex() {
-        $tree = new \kasoft\jstree\JsTree([
+        $tree = new \studio255\jstree\JsTree([
             'modelName'=>'backend\models\MY_MODEL_NAME',    // * Namespace of the Model
             'modelPropertyId' => 'id'                       // * primary Key
             'modelPropertyParentId' => 'parentId',          // * Parent ID for tree items
