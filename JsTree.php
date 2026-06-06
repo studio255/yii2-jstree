@@ -4,12 +4,12 @@
  * JsTree widget is a Yii2 wrapper for the jsTree jQuery plugin with extended
  * functions.
  *
- * @author Nils Menrad
+ * @author studio255
  * @since 1.0
  * @see http://jstree.com
  */
 
-namespace kasoft\jstree;
+namespace studio255\jstree;
 
 use Yii;
 use yii\helpers\Html;
@@ -18,7 +18,7 @@ use yii\base\Widget;
 use yii\web\View;
 use yii\web\Response;
 use yii\helpers\Url;
-use kasoft\jstree\JsTreeAsset;
+use studio255\jstree\JsTreeAsset;
 
 class JsTree extends Widget
 {

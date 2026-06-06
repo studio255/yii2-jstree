@@ -34,7 +34,7 @@ class TreetestController extends Controller
         // required database fields:
         // name, parent_id, online, type, position
         
-        $tree = new \kasoft\jstree\JsTree([
+        $tree = new \studio255\jstree\JsTree([
             'modelName'=>'app\models\Treetest',
             'modelFirstParentId' => NULL,
             'modelPropertyName' => 'name',
