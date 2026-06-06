@@ -1,103 +1,42 @@
-Extension für jsTree Plugin
-===========================
-jsTree for Yii2 is a Extension to display an handle ActiveRecord Models with jsTree.
+# yii2-jstree
 
-- load tree data with ajax and display tree
-- define icons for different tree items (e.g. with FontAwesome)
-- context menu with update, rename and delete
-- move tree items by drag'n'drop 
-- context submenu with individual node types
-- dynamic context menu where items for special types can be removed
-- individual text and context menu messages
+[![Latest Version](https://img.shields.io/packagist/v/studio255/yii2-jstree.svg)](https://packagist.org/packages/studio255/yii2-jstree)
+[![Total Downloads](https://img.shields.io/packagist/dt/studio255/yii2-jstree.svg)](https://packagist.org/packages/studio255/yii2-jstree)
+[![License](https://img.shields.io/packagist/l/studio255/yii2-jstree.svg)](LICENSE)
 
+A Yii2 widget for the [jsTree](https://www.jstree.com/) jQuery library — display and manage Yii2 ActiveRecord models as interactive trees.
 
-Installation
-------------
+<!-- Add a screenshot here: ![Demo](docs/screenshot.png) -->
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+## Features
 
-Either run
+- Load tree data via AJAX
+- Custom icons per node type (FontAwesome, Bootstrap Icons, or any CSS class)
+- Context menu: create, rename, duplicate, delete
+- Drag-and-drop reordering
+- Submenu with individual node types
+- Dynamic context menu — hide items per node type (e.g. no *delete* on type *page*)
+- Customizable labels and confirmation messages
+- Yii2 validation errors forwarded to JavaScript alerts
 
+## Requirements
+
+- PHP 8.2 or higher
+- Yii2 2.0.51 or higher
+
+## Installation
+
+```bash
+composer require studio255/yii2-jstree
 ```
-php composer.phar require --prefer-dist studio255/yii2-jstree "1.0.14"
-```
 
-or add
+## Usage
 
-```
-"studio255/yii2-jstree": "1.0.17",
-```
-
-to the require section of your `composer.json` file.
-
-Latest News
------
-Version 1.0.17
-- PHP 8.2 Compatibility
-
-Version 1.0.16 
-- Removed unnecessary Bootstrap Dependency
-
-Version 1.0.14
-- Define a id wich node via initialOpenId wich will open after load
-
-Version 1.0.13
-- Individuall "New node" Text can be set in standardMsg
-
-
-Version 1.0.12
-- Fixed missing Icon for Duplicate
-
-
-Version 1.0.11
-- New: Duplicate Items in Kontext Menu with Model Duplication
-- Yii2 Error Messages while create or duplicate are transportet to Javascript Alert
-- Remove Contextmenu Items for special Types (e.g. No "delete" for type "page") 
-
-
-Version 1.0.10
-- Fixed array_merge error
-
-
-Version 1.0.9
-- More Text that could be translated
-- Fixed rename error 
-
-Version 1.0.8
-- Set individual Context Menu Text and individual Alert Messages
-- Choose which Context Menu should be displayed (create, edit, delete, rename)
-- Set individual Icon for each Enty
-- Setup a create Submenu with different new node Types and define these Node Type 
-as described in JsTree Docs with different possibilities (allow childs, allow move, set icon)
-
-
-Version 1.0.7
-- Added modelPropertyType with default value + online/offline glyphicons as default
-
-Version 1.0.6
-- Fixed a Problem with Yii 2.0.14, because of a diffrent Error Handling, the Tree wasn't displayes
-- REQUEST check in Controller isn't needed any more
-
-Version 1.0.5
-- Selecting a Node will trigger update action via Ajax and load result in .jstree-result div.
-If the .jstree-result is not found, it will redirect to Update Action
-- Changed all Submenu Icons to Glyhicon
-
-Version 1.0.4
-- Updated Composer Settings
-
-Version 1.0.3
-- Selected multiple Nodes are all deleted
-
-
-Usage without Model (JSON only)
------
-The simple Version just displays the tree with a provided json url. You have 
-to provide the json data by an url  
+### Simple variant — JSON URL only
 
 ```php
 $tree = new \studio255\jstree\JsTree([
-    'jsonUrl' => '/my_jsonurl/data/whatever',
+    'jsonUrl' => '/my-json-url/data',
 ]);
 ```
 
@@ -105,101 +44,81 @@ $tree = new \studio255\jstree\JsTree([
 <div id="jstree"></div>
 ```
 
+### Full variant — backed by a Yii2 ActiveRecord model
 
-Usage with Yii2 Model 
------
-If you want to use the Extension so Display the Tree from your Data, do Operations
-like move, create, delete, rename and open the form view by Click use this Version.
+Enables create, move, rename and delete operations on the model directly from the tree.
 
-Before you start, check your Database or your Model! Do you have all required Fields?
+**Required model / database fields:**
 
-Together with a Database (tested with MySQL) and a set of Fields to order and
-structure the tree are needed. The Tree is displayed in a DIV. The Extensions handels 
-create, move, rename and delete for you. A click on a Tree Item will dipslay the form to
-edith data in another div. 
+| Field       | Required | Purpose                                |
+|-------------|----------|----------------------------------------|
+| `name`      | yes      | Display label                          |
+| `parent_id` | yes      | Tree nesting                           |
+| `position`  | yes      | Sort order within parent               |
+| `type`      | no       | Used for icon and permission handling  |
 
-See the Test Setup in the "demo" Folder! 
+> **Important:** Only `name` should be a required attribute in your model — otherwise the *New* context menu action may fail.
 
-Set up you Database with the needed fileds (can have different names)
-*name            Name or Titel to Display in in the tree (required)
-*parent_id       Id for nesting the tree (required)
-*position        For sorting the tree items (required)
-*type            Type of the Item, used for Icon and rights (optional)
-
-Set up your Model with these Fields. Important: Only the name is allwoed to be
-a required Field! Otherwise the Contextmenue "New" will probably not work.
-
-
-Add this to your Controller. All Items with (*) are required!
+**Controller setup:**
 
 ```php
-<?
-public function actionIndex() {
-        $tree = new \studio255\jstree\JsTree([
-            'modelName'=>'backend\models\MY_MODEL_NAME',    // * Namespace of the Model
-            'modelPropertyId' => 'id'                       // * primary Key
-            'modelPropertyParentId' => 'parentId',          // * Parent ID for tree items
-            'modelPropertyPosition' => 'position',          // *for sorting items
-            'modelPropertyName' => 'name',                  // * Fieldname to show
-            'modelFirstParentId' => NULL,                   // * ID for the Tree to start
-            'modelPropertyType' => 'type',                  // Item type (for Icon and jsTree rights)
-            'controllerId' => 'index',                      // Controler Actions which should handle everything
-            'jstreeDiv' => '#jstree',                       // DIV where the Tree will be displayed
-            'jstreeIcons' => false,                         // Show Icons or not
-            'jstreePlugins' => ["contextmenu", "dnd",..],   // Plugins to be load
-            'jstreeContextMenue' => [                       // Define individual menu
-                "remove" => [
-                    "text" => "Delete",
-                    "icon" => "glyphicon glyphicon-plane",
-                ],
-                "edit" => [
-                    "text" => "Edit",
-                    "icon" => "glyphicon glyphicon-picture",
-                ],
-                "create" => [
-                    "text" => "Create new",
-                    "icon" => "glyphicon glyphicon-barcode",
-                    "type"=> "online",
-                    "submenu" => [                          //Define submenu for creating node types
-                        ["text"=>"Create new with Type offline","icon" => "glyphicon glyphicon-barcode","type"=>"offline"],
-                        ["text"=>"Create new with Type online","icon" => "glyphicon glyphicon-plane", "type"=>"online"],
-                        ["text"=>"Create new with Type default","glyphicon glyphicon-volume-up","type"=>""],
-                    ]
-                ],
-                "rename" => [
-                    "text" => "Rename",
-                    "icon" => "glyphicon glyphicon-volume-up",
+public function actionIndex()
+{
+    $tree = new \studio255\jstree\JsTree([
+        'modelName'             => 'backend\\models\\YourModel',
+        'modelPropertyId'       => 'id',
+        'modelPropertyParentId' => 'parent_id',
+        'modelPropertyPosition' => 'position',
+        'modelPropertyName'     => 'name',
+        'modelFirstParentId'    => null,
+        'modelPropertyType'     => 'type',
+        'controllerId'          => 'index',
+        'jstreeDiv'             => '#jstree',
+        'jstreeIcons'           => false,
+        'jstreePlugins'         => ['contextmenu', 'dnd'],
+        'jstreeContextMenue'    => [
+            'remove' => ['text' => 'Delete', 'icon' => 'fa fa-trash'],
+            'edit'   => ['text' => 'Edit',   'icon' => 'fa fa-pencil'],
+            'create' => [
+                'text'    => 'Create new',
+                'icon'    => 'fa fa-plus',
+                'type'    => 'online',
+                'submenu' => [
+                    ['text' => 'New offline node', 'icon' => 'fa fa-cloud',      'type' => 'offline'],
+                    ['text' => 'New online node',  'icon' => 'fa fa-cloud-bolt', 'type' => 'online'],
                 ],
             ],
-            'jstreeType' => [                               // jsTree Type Options
-                "#" => [
-                    "max_children" => -1,
-                    "max_depth" => -1,
-                    "valid_children" => -1, 
-                    "icon" => "glyphicon glyphicon-th-list"
-                ],
-                "default" => [
-                    "icon" => "glyphicon glyphicon-question-sign"
-                ],
-            ],
-            'jstreeMsg' => [                                // Individual Alert Messages
-                    "confirmdelete" => "Are you sure? Delete?",
-                    "nothere" => "Not possible at this Position!",
-                ]
-        ]);
-        
-        return $this->render('index');
-    }
- ?>
+            'rename' => ['text' => 'Rename', 'icon' => 'fa fa-i-cursor'],
+        ],
+        'jstreeType' => [
+            '#'       => ['max_children' => -1, 'max_depth' => -1, 'valid_children' => -1, 'icon' => 'fa fa-list'],
+            'default' => ['icon' => 'fa fa-question'],
+        ],
+        'jstreeMsg' => [
+            'confirmdelete' => 'Are you sure you want to delete this item?',
+            'nothere'       => 'Not allowed at this position.',
+        ],
+    ]);
+
+    return $this->render('index');
+}
 ```
 
-Put this in the index view file. A Click on an Item will delegate the update
-action to the result field. Also the form should have a class named "jstree-form"
-to delegate the result of the form submit to the div.
+**View setup:**
+
+A click on a tree item triggers the update action via AJAX and loads the result into `.jstree-result`. Forms used inside the result div should carry the class `jstree-form` so their submit response is routed back to the result container.
 
 ```html
 <div id="jstree"></div>
-<div class="result"></div>
+<div class="jstree-result"></div>
 ```
 
+The icon classes in the examples use FontAwesome — any CSS-based icon set works (Bootstrap Icons, Material, custom classes).
 
+## Demo
+
+A working demo setup is available in the [`demo/`](demo/) directory.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

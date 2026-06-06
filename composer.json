@@ -1,30 +1,31 @@
 {
     "name": "studio255/yii2-jstree",
-    "description": "jsTree is jquery plugin, that provides interactive trees",
+    "description": "Yii2 widget wrapping the jsTree jQuery library — displays and manages ActiveRecord models as interactive trees.",
     "type": "yii2-extension",
-    "keywords": ["yii2","extension"],
+    "keywords": ["yii2", "yii2-extension", "jstree", "tree", "widget", "ui", "treeview"],
     "license": "MIT",
+    "homepage": "https://github.com/studio255/yii2-jstree",
     "authors": [
         {
             "name": "Studio255 Karlsruhe",
             "email": "mail@studio255.de"
         }
     ],
+    "support": {
+        "issues": "https://github.com/studio255/yii2-jstree/issues",
+        "source": "https://github.com/studio255/yii2-jstree"
+    },
     "require": {
         "php": ">=8.2",
         "yiisoft/yii2": "^2.0.55",
-        "vakata/jstree" : "3.3"
+        "bower-asset/jstree": "^3.3"
     },
-    "config": {
-        "process-timeout": 1800,
-        "fxp-asset": {
-            "enabled": false
-        },
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower-asset"
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
-    },
+    ],
     "autoload": {
         "psr-4": {
             "studio255\\jstree\\": ""
